@@ -9,14 +9,17 @@ dependency ":curl" version="*"
 subPackage {
   name "bearssl"
   sourceFiles "dummy.d"
+  targetPath "output/bearssl"
+  lflags "${PACKAGE_DIR}/output/bearssl/lib/libbearssl.a" platform="posix"
 
   preBuildCommands `
     cd vendor/bearssl &&
-    make -j $$($PACKAGE_DIR/tools/cpu_count.sh) &&
-    mkdir -p $${DUB_TARGET_PATH}/output/bearssl/include &&
-    mkdir -p $${DUB_TARGET_PATH}/output/bearssl/lib &&
-    cp inc/*.h $${DUB_TARGET_PATH}/output/bearssl/include &&
-    cp build/*.a $${DUB_TARGET_PATH}/output/bearssl/lib
+    make -j $$($PACKAGE_DIR/tools/cpu_count.sh)
+    mkdir -p $${DUB_TARGET_PATH}/include &&
+    mkdir -p $${DUB_TARGET_PATH}/lib &&
+    mkdir -p $${DUB_TARGET_PATH}/bin &&
+    cp inc/*.h $${DUB_TARGET_PATH}/include &&
+    cp build/*.a $${DUB_TARGET_PATH}/lib
   ` platform="posix"
 
   extraDependencyFiles \
@@ -329,6 +332,13 @@ subPackage {
 subPackage {
   name "curl"
   sourceFiles "dummy.d"
+  targetPath "output/curl"
+
+  lflags "${PACKAGE_DIR}/output/curl/lib/libcurl.a"
+  lflags \
+    "-framework" "CoreFoundation" \
+    "-framework" "SystemConfiguration" \
+    platform="osx"
 
   dependency "curl:nghttp2" version="*"
   dependency "curl:bearssl" version="*"
@@ -343,10 +353,10 @@ subPackage {
       --disable-ldap \
       --disable-manual \
       --without-libidn2 \
-      --prefix="$${DUB_TARGET_PATH}/output/curl" \
-      --with-bearssl="$${DUB_TARGET_PATH}/output/bearssl" \
-      --with-nghttp2="$${DUB_TARGET_PATH}/output/nghttp2" \
-      --with-zlib="$${DUB_TARGET_PATH}/output/zlib" &&
+      --prefix="$${DUB_TARGET_PATH}" \
+      --with-bearssl="$${DUB_TARGET_PATH}/../bearssl" \
+      --with-nghttp2="$${DUB_TARGET_PATH}/../nghttp2" \
+      --with-zlib="$${DUB_TARGET_PATH}/../zlib" &&
     make install -j $$($PACKAGE_DIR/tools/cpu_count.sh)
   ` platform="posix"
 }
@@ -354,6 +364,8 @@ subPackage {
 subPackage {
   name "nghttp2"
   sourceFiles "dummy.d"
+  targetPath "output/nghttp2"
+  lflags "${PACKAGE_DIR}/output/nghttp2/lib/libnghttp2.a"
 
   preBuildCommands `
     cd vendor/nghttp2 &&
@@ -363,7 +375,7 @@ subPackage {
     ./configure \
       --disable-shared \
       --enable-lib-only \
-      --prefix="$${DUB_TARGET_PATH}/output/nghttp2" &&
+      --prefix="$${DUB_TARGET_PATH}" &&
     make install -j $$($PACKAGE_DIR/tools/cpu_count.sh)
   ` platform="posix"
 
@@ -563,12 +575,14 @@ subPackage {
 subPackage {
   name "zlib"
   sourceFiles "dummy.d"
+  targetPath "output/zlib"
+  lflags "${PACKAGE_DIR}/output/zlib/lib/libz.a"
 
   preBuildCommands `
     cd vendor/zlib &&
     ./configure \
       --static \
-      --prefix="$${DUB_TARGET_PATH}/output/zlib" &&
+      --prefix="$${DUB_TARGET_PATH}" &&
     make install -j $$($PACKAGE_DIR/tools/cpu_count.sh)
   ` platform="posix"
 
