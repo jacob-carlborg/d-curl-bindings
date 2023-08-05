@@ -36,6 +36,7 @@ default_flags="-Ioutput/curl/include/curl \
   $default_flags \
   -o "$d_output/curl.d" \
   --global-import curl.raw.system \
+  --public-global-import curl.raw.manual.curl \
   --skip curl_easy_setopt \
   --skip curl_easy_getinfo \
   --skip curl_share_setopt \

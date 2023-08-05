@@ -1,9 +1,9 @@
 module curl.raw.curl;
 
 import core.stdc.config;
-import core.stdc.time;
 import core.sys.posix.sys.socket;
 import curl.raw.system;
+public import curl.raw.manual.curl;
 
 extern (C):
 
