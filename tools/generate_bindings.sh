@@ -30,7 +30,8 @@ default_flags="-Ioutput/curl/include/curl \
 "${DSTEP:-dstep}" output/curl/include/curl/easy.h \
   $default_flags \
   -o "$d_output/easy.d" \
-  --global-import curl.raw.curl
+  --global-import curl.raw.curl \
+  --skip curl_easy_setopt
 
 "${DSTEP:-dstep}" output/curl/include/curl/curl.h \
   $default_flags \

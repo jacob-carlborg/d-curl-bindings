@@ -41,7 +41,6 @@ struct curl_blob
 }
 
 CURL* curl_easy_init();
-CURLcode curl_easy_setopt(CURL* curl, CURLoption option, ...);
 CURLcode curl_easy_perform(CURL* curl);
 void curl_easy_cleanup(CURL* curl);
 
