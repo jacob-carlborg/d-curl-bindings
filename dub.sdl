@@ -14,7 +14,7 @@ subPackage {
 
   preBuildCommands `
     cd vendor/bearssl &&
-    make -j $$($PACKAGE_DIR/tools/cpu_count.sh)
+    make -j $$($PACKAGE_DIR/tools/cpu_count.sh) &&
     mkdir -p $${DUB_TARGET_PATH}/include &&
     mkdir -p $${DUB_TARGET_PATH}/lib &&
     mkdir -p $${DUB_TARGET_PATH}/bin &&
