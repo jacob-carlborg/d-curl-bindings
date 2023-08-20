@@ -41,12 +41,24 @@ DSTEP="path/to/dstep" ./tools/generate_bindings.sh
 ### Update Dependencies
 
 The dependencies of the curl bindings (including curl itself) are included in
-the repository using git subtree. To update a dependency, run the following
-command:
+the repository using git subtree. To update a dependency, perform the following
+steps:
 
-```
-./tools/sync_subtree.sh <dependency> <version>
-```
+1. Run the following command to update a dependency
+    ```
+    ./tools/sync_subtree.sh <dependency> <version>
+    ```
 
-Where `<dependency>` is any of the subdirectories in the `vendor` directory and
-`<version>` is a git reference.
+    Where `<dependency>` is any of the subdirectories in the `vendor` directory and
+    `<version>` is a git reference.
+
+1. To generate a list of extra dependency files run the following command:
+    ```
+    ./tools/print_extra_dependency_files_list.sh <dependency>
+    ```
+
+    Where `<dependency>` is the same as above.
+
+1. Copy the output from the previous step
+1. Replace the `extraDependencyFiles` list in the matching subpackage with the
+    output from the above command
